@@ -1,8 +1,11 @@
 import React from 'react'
-
+import Logo from '../img/logo.png'
 const Footer = () => {
   return (
-    <div>footer</div>
+    <footer>
+      <img  src={Logo} alt='logo' />
+      <span>Made with React.js and SCSS styling</span>
+    </footer>
   )
 }
 
