@@ -1,5 +1,6 @@
 import { db } from "../db.js";
 import  bcrypt  from "bcryptjs";
+import query from "mysql2";
 
 export const registerController = (req,res) => {
 
@@ -14,7 +15,7 @@ export const registerController = (req,res) => {
         const  salt= bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
 
-        const q = "INSERT INTO users(`username`,`email,`password`) VALUES (?) ";
+        const q = "INSERT INTO users(`username`,`email`,`password`) VALUES (?) ";
         const values = [
             req.body.username,req.body.email, hash
         ]
