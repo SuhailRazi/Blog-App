@@ -10,6 +10,7 @@ const Register = () => {
   });
 
   const [error,setError]= useState('')
+  
   const handleChange = (e) =>{
       setInput(prev =>({...prev,[e.target.name]:[e.target.value]}))
   }

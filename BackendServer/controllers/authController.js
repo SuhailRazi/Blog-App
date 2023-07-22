@@ -7,8 +7,14 @@ export const registerController = async (req,res) => {
     const q = "SELECT * FROM users WHERE email = ? OR username = ?"
 
     db.query(q, [req.body.email, req.body.username], async (err, data) => {
-        if (err) res.json({message : " Error at 11"});
-        if (data.length) res.status(409).json("User already exists");
+        if (err) {
+         res.json({message : " Error at 11"})
+         process.exit();
+      };
+        if (data.length) {
+         res.status(409).json("User already exists");
+         process.exit();
+      }
 
         let newpassword = req.body.password.toString();
 
