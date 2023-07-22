@@ -1,5 +1,5 @@
 import { createBrowserRouter, Outlet, RouterProvider  } from "react-router-dom";
-import Register from "./pages/register";
+import Register from "./pages/Register";
 import Login from "./pages/login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import Single from "./pages/Single";
 import Write from "./pages/write";
 import "./style.scss";
+
 
 const Layout = () =>{
   return(

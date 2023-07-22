@@ -1,33 +1,32 @@
 import { db } from "../db.js";
-import  bcrypt  from "bcryptjs";
-import query from "mysql2";
+import bcrypt from "bcrypt"; 
 
-export const registerController = (req,res) => {
+export const registerController = async (req,res) => {
 
     // if user Exist
     const q = "SELECT * FROM users WHERE email = ? OR username = ?"
 
-    db.query(q,[req.body.email, req.body.username],(err,data)=>{
-        if(err) res.json(err);
-        if(data.length) res.status(409).json("user already exist");
+    db.query(q, [req.body.email, req.body.username], async (err, data) => {
+        if (err) res.json({message : " Error at 11"});
+        if (data.length) res.status(409).json("User already exists");
 
-        // Hashing password
-        const  salt= bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
+        let newpassword = req.body.password.toString();
 
-        const q = "INSERT INTO users(`username`,`email`,`password`) VALUES (?) ";
-        const values = [
-            req.body.username,req.body.email, hash
-        ]
-        db.query(q,[values],(err,data)=>{
-            if(err) res.json(err)
-            res.status(200).json(`User registred succesfully ${data.username}`);
-        })
-
-    })
-
-}
-
+          // Hashing password
+         const passwordsalt = bcrypt.genSaltSync(10);
+         const hashed = await bcrypt.hash(newpassword, passwordsalt)
+         const q = "INSERT INTO users(`username`,`email`,`password`) VALUES (?) ";
+         const values = [
+            req.body.username,
+            req.body.email,
+            hashed
+         ]
+         db.query(q,[values],(err,data)=>{
+            if(err) res.json({message : " Error at 24"});
+            res.status(200).json("user created");
+         })
+      });
+    };
 
 export const loginController = (req,res) =>{
 
