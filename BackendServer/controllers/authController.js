@@ -1,3 +1,4 @@
+import  jwt  from "jsonwebtoken";
 import { db } from "../db.js";
 import bcrypt from "bcrypt"; 
 
@@ -9,11 +10,9 @@ export const registerController = async (req,res) => {
     db.query(q, [req.body.email, req.body.username], async (err, data) => {
         if (err) {
          res.json({message : " Error at 11"})
-         process.exit();
       };
         if (data.length) {
          res.status(409).json("User already exists");
-         process.exit();
       }
 
         let newpassword = req.body.password.toString();
@@ -35,6 +34,30 @@ export const registerController = async (req,res) => {
     };
 
 export const loginController = (req,res) =>{
+
+   // If user exise
+   const q = 'SELECT * from users WHERE username = ?'
+   db.query(q,[req.body.username],(err,data)=>{
+      if(err) res.json(err);
+      if(data.length == 0) {
+         return res.status(404).json("User does not exist");
+      }
+
+      // checking password
+      const stringpassword = req.body.password.toString()
+      const checkPassword = bcrypt.compareSync(stringpassword, data[0].password);
+
+      if(!checkPassword) return res.status(400).json("Incorrect password or username");
+
+      // creating access token
+      const token = jwt.sign({id:data[0].id},"jwtkey");
+      const {password, ...other} = data[0]
+
+      res.cookie("access_token",token,{
+         httpOnly: true
+      }).status(200).json(other)
+
+   })
 
 }
 
