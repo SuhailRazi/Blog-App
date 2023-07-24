@@ -13,8 +13,7 @@ const Login = () => {
   })
   const [error,setError] = useState('')
 
-  const { currentUser } = useContext(AuthContext)
-  console.log(currentUser);
+  const { login } = useContext(AuthContext)
 
   const handleChange = (e) =>{
     setInput((prev) =>({...prev,[e.target.name]:[e.target.value]}))
@@ -24,14 +23,14 @@ const Login = () => {
     e.preventDefault();
     try {
       // const res = await axios.post('http://localhost:8800/api/auth/login',input)
-      console.log(res)
+      await login(input);
       navigate('/')
     } catch (err) {
       setError(err.response.data)
     }
   }
 
-  console.log("inputs",input);
+  // console.log("inputs",input);
   return (
     <div className='auth'>
       <h1>Login</h1>

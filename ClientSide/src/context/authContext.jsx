@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = useContext()
+export const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) =>{
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null)
@@ -13,7 +13,7 @@ export const AuthContextProvider = ({children}) =>{
     }
 
     const logout = async(inputs)=>{
-        await axios.post('http://localhost:8800/api/auth/logout',inputs)
+        await axios.post('http://localhost:8800/api/auth/logout')
         setCurrentUser(null)
     }
 
@@ -22,7 +22,7 @@ export const AuthContextProvider = ({children}) =>{
     },[currentUser])
 
     return(
-        <AuthContext.Provider value={{currentUser,logout,login}} >
+        <AuthContext.Provider value={{ currentUser, login, logout }}>
             {children}
         </AuthContext.Provider>
     )
