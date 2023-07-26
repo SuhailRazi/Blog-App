@@ -7,6 +7,8 @@ const Navbar = () => {
 
   const { currentUser, logout } = useContext(AuthContext);
 
+  
+
   return (
     <div className='navbar'>
       <div className="container">

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext()
 
@@ -9,6 +10,7 @@ export const AuthContextProvider = ({children}) =>{
 
     const login = async(inputs) =>{
       const res = await axios.post('http://localhost:8800/api/auth/login',inputs)
+      console.log("loginresponse",res);
       setCurrentUser(res.data)  
     }
 
