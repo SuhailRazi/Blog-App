@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Home = () => {
 
@@ -41,19 +41,22 @@ const Home = () => {
 
   const [posts,setPosts] = useState([]);
   console.log("api",import.meta.env.VITE_CORE_HOST);
+  const location = useLocation()
+  const cat= location.search;
+  console.log(location.search);
   
   useEffect(()=>{
     
     const fetchData = async () =>{
       try{
-        const res = await axios.get(`${import.meta.env.VITE_CORE_HOST}posts`);
+        const res = await axios.get(`${import.meta.env.VITE_CORE_HOST}/posts${cat}`);
         setPosts(res.data)
       }catch(err){
         console.log("err->",err);
       }
     };
     fetchData()
-  },[])
+  },[cat])
   console.log(posts);
 
   return (
